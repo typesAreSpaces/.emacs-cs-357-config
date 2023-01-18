@@ -29,14 +29,14 @@
 (put 'eval-expression 'disabled nil)
 
 ;; Basic Racket setup
-(setq scheme-program-name "<PATH-TO-RACKET>")
+(setq scheme-program-name "/usr/bin/racket")
 (setq auto-mode-alist
       (cons '("\\.rkt\\'" . scheme-mode)
             auto-mode-alist))
 
 ;; Basic Haskell setup
 (require 'haskell-mode)
-(setq haskell-program-name "<PATH-TO-GHCI>")
+(setq haskell-program-name "/usr/bin/ghci")
 (setq auto-mode-alist
       (cons '("\\.hs\\'" . haskell-mode)
             auto-mode-alist))
