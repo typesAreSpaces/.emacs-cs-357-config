@@ -28,16 +28,22 @@
 (put 'upcase-region 'disabled nil)
 (put 'eval-expression 'disabled nil)
 
-;; Basic Racket setup
-;(setq scheme-program-name "/Applications/Racket v8.7/bin/racket")
-(setq scheme-program-name "racket")
+;; Basic Racket setupn
+(setq scheme-program-name "Racket.exe")
 (setq auto-mode-alist
       (cons '("\\.rkt\\'" . scheme-mode)
             auto-mode-alist))
 
 ;; Basic Haskell setup
 (require 'haskell-mode)
-(setq haskell-program-name "/opt/homebrew/bin/ghci")
+(setq haskell-program-name "ghci.exe")
+(setq auto-mode-alist
+      (cons '("\\.hs\\'" . haskell-mode)
+            auto-mode-alist))
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;; Choose indentation mode (the latter requires haskell-mode >= 2.5):
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (setq auto-mode-alist
       (cons '("\\.hs\\'" . haskell-mode)
             auto-mode-alist))
