@@ -8,10 +8,11 @@
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(simpleclip yasnippet-snippets yasnippet hydra helpful orderless vertico embark-consult embark marginalia which-key doom-modeline anzu haskell-mode font-lock no-littering use-package)))
+   '(general racket-mode simpleclip yasnippet-snippets yasnippet hydra helpful orderless vertico embark-consult embark marginalia which-key doom-modeline anzu haskell-mode font-lock no-littering use-package))
+ '(safe-local-variable-values
+   '((TeX-master . "/home/jose/Documents/GithubProjects/phd-thesis/Documents/Seminars/BeihangUniversity-Fall2021/Reports/curr_theorems_and_proofs_for_submission/main.tex"))))
 (package-initialize)
 
-					; fetch the list of packages available 
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -34,9 +35,18 @@
 (set-fringe-mode 10)               ; Give some breathing room
 (setq visible-bell t)              ; Set up the visible bell
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 180)
-(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height 180)
-(set-face-attribute 'variable-pitch nil :font "Hack" :height 180 :weight 'regular)
+(global-set-key "%" 'match-paren)
+
+(defun match-paren (arg)
+  "Go to the matching paren if on a paren; otherwise insert %."
+  (interactive "p")
+  (cond ((looking-at "\\s(") (forward-list 1) (backward-char 1))
+	((looking-at "\\s)") (forward-char 1) (backward-list 1))
+	(t (self-insert-command (or arg 1)))))
+
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 160)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height 160)
+(set-face-attribute 'variable-pitch nil :font "Hack" :height 160 :weight 'regular)
 
 (use-package command-log-mode
   :commands command-log-mode)
@@ -44,7 +54,7 @@
 (use-package rainbow-mode)
 
 (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package doom-themes
   :init (load-theme 'doom-gruvbox t))
@@ -64,6 +74,52 @@
   :config
   (which-key-mode)
   (setq which-key-idle-delay 1))
+
+(use-package general
+  :config
+  (general-create-definer leader-keys
+    :prefix "C-c SPC")
+
+  (leader-keys
+    "e" '(:ignore t :which-key "(e)dit buffer")
+    "ef"  '(fill-buffer :which-key "(f)ill buffer")
+    "ei"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
+    "ey" '(simpleclip-copy :which-key "clipboard (y)ank")
+    "ep" '(simpleclip-paste :which-key "clipboard (p)aste")
+    "f" '(:ignore t :which-key "edit (f)iles")
+    "fi" '((lambda () (interactive)
+	     (find-file (expand-file-name "~/Documents/GithubProjects/.emacs-cs-357-config/init.el")))
+	   :which-key "emacs (i)nit file")
+    "s"  '(shell-command :which-key "(s)hell command")
+    "t"  '(:ignore t :which-key "(t)oggles")
+    "tt" '(load-theme :which-key "Choose (t)heme")
+    "g" '(magit-status :which-key "Ma(g)it status")
+    "d" '(dired-jump :which-key "(d)ired jump")
+    "w" '(:ignore t :which-key "(w)indows related")
+    "wu" '(winner-undo :which-key "Winner (u)ndo")
+    "wr" '(winner-redo :which-key "Winner (r)edo")))
+
+(defvar dashboard-logo-path "~/Pictures/Wallpapers/figures/480px-EmacsIcon.svg.png")
+
+(use-package all-the-icons)
+
+(use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-center-content t)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-set-navigator t)
+  (setq dashboard-banner-logo-title "Welcome to Emacs!")
+  (when (file-exists-p dashboard-logo-path)
+    (setq dashboard-startup-banner dashboard-logo-path))
+  (setq dashboard-items '((recents  . 10)
+			  (bookmarks . 10)))
+  (dashboard-setup-startup-hook))
+
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+
+;(with-eval-after-load 'dashboard (dashboard-refresh-buffer))
 
 (use-package marginalia
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
@@ -254,15 +310,15 @@
     (consult-find)))
 
 (use-package helpful
-    :commands (helpful-callable helpful-variable helpful-command helpful-key)
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . counsel-describe-function)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
+  :commands (helpful-callable helpful-variable helpful-command helpful-key)
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
 
 (use-package hydra
   :defer t)
@@ -274,16 +330,16 @@
   ("f" nil "finished" :exit t))
 
 (use-package yasnippet
-    :config
-    (setq yas-snippet-dirs `(,(expand-file-name "snippets" user-emacs-directory)))
-    (setq yas-key-syntaxes '(yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
-    (yas-global-mode 1))
+  :config
+  (setq yas-snippet-dirs `(,(expand-file-name "snippets" user-emacs-directory)))
+  (setq yas-key-syntaxes '(yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
+  (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
 
 (use-package simpleclip
-    :config
-    (simpleclip-mode 1))
+  :config
+  (simpleclip-mode 1))
 
 ;; Basic Racket setup
 (setq scheme-program-name "racket")
