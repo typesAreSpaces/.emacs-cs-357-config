@@ -8,7 +8,7 @@
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(general racket-mode simpleclip yasnippet-snippets yasnippet hydra helpful orderless vertico embark-consult embark marginalia which-key doom-modeline anzu haskell-mode font-lock no-littering use-package))
+   '(flx general racket-mode simpleclip yasnippet-snippets yasnippet hydra helpful orderless vertico embark-consult embark marginalia which-key doom-modeline anzu haskell-mode font-lock no-littering use-package))
  '(safe-local-variable-values
    '((TeX-master . "/home/jose/Documents/GithubProjects/phd-thesis/Documents/Seminars/BeihangUniversity-Fall2021/Reports/curr_theorems_and_proofs_for_submission/main.tex"))))
 (package-initialize)
@@ -120,6 +120,8 @@
 (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 
 ;(with-eval-after-load 'dashboard (dashboard-refresh-buffer))
+
+(use-package flx)
 
 (use-package marginalia
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
