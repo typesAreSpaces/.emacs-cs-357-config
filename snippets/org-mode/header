@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Header
+# key: ;header
+# condition: 'auto
+# --
+#+TITLE: $1
+#+AUTHOR: ${2:Jose Abel Castellanos Joo}
+#+OPTIONS: toc:nil
+${3:#+LATEX_CLASS: ${4:$$(yas-choose-value '("myarticle" "myreport"))}}
+
+$0
