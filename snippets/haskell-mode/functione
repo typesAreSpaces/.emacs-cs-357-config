@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: fune
-# key: fune
+# key: ;fune
+# condition: 'auto
 # --
 ${1:function-name} :: ${2:type}
 $1 = $0error "Not implemented: $1"

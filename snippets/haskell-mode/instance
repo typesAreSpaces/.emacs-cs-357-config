@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: instance
-# key: ins
+# key: ;ins
+# condition: 'auto
 # --
 instance ${1:${2:(Show a)} => }${3:Ord} ${4:DataType} where
 $0

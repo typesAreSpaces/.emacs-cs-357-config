@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: doc
-# key: d
+# key: ;doc
+# condition: 'auto
 # --
 {-
   $0
