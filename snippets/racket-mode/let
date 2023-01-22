@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: (let... ([... ...]...) ...)
-# key: let
+# key: ;let
+# condition: 'auto
 # --
 (let$1 ([${2:name} ${3:expression}]$4) $0)

@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: (for... (...) ...)
-# key: for
+# key: ;for
+# condition: 'auto
 # --
 (for$1 (${2:for-clause}) $0)

@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: (module ... ... ...)
-# key: module
+# key: ;module
+# condition: 'auto
 # --
 (module ${1:id} ${2:module-path}
   $0)

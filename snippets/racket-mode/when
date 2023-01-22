@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: (when ...)
-# key: when
+# key: ;when
+# condition: 'auto
 # --
 (when ${1:(${2:predicate})} $0)

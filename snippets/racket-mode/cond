@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: (cond [... ...]...)
-# key: cond
+# key: ;cond
+# condition: 'auto
 # --
 (cond [${1:predicate} $0])

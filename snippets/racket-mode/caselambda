@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: (case-lambda [... ...]...)
-# key: case-lambda
+# key: ;case-lambda
+# condition: 'auto
 # --
 (case-lambda [${1:arguments} $0])

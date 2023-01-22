@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: (match ... [... ...]...)
-# key: match
+# key: ;match
+# condition: 'auto
 # --
 (match ${1:expression} [${2:clause} $0])

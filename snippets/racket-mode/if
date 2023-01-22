@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: (if ... ... ...)
-# key: if
+# key: ;if
+# condition: 'auto
 # --
 (if ${1:(${2:predicate})}
     $0)
