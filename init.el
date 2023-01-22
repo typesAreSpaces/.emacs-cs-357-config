@@ -99,40 +99,49 @@
   :config
   (simpleclip-mode 1))
 
-(use-package general
-    :config
-    (general-create-definer leader-keys
-      :prefix "C-c SPC")
+(defun org-babel-tangle-config ()
+  (when (string-equal (file-name-directory (buffer-file-name))
+                      (expand-file-name user-emacs-directory))
+                                        ; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
 
-    (leader-keys
-     "e" '(:ignore t :which-key "(e)dit buffer")
-     "ef"  '(fill-buffer :which-key "(f)ill buffer")
-     "ei"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
-     "ey" '(simpleclip-copy :which-key "clipboard (y)ank")
-     "ep" '(simpleclip-paste :which-key "clipboard (p)aste")
-     "f" '(:ignore t :which-key "edit (f)iles")
-     "fc" '((lambda () (interactive)
-              (find-file (expand-file-name "~/Documents/GithubProjects/.emacs-cs-357-config/cs-357.org")))
-            :which-key "emacs (c)onfig file")
-     "s"  '(shell-command :which-key "(s)hell command")
-     "t"  '(:ignore t :which-key "(t)oggles")
-     "tt" '(load-theme :which-key "Choose (t)heme")
-     "g" '(magit-status :which-key "Ma(g)it status")
-     "d" '(dired-jump :which-key "(d)ired jump")
-     "w" '(:ignore t :which-key "(w)indows related")
-     "wu" '(winner-undo :which-key "Winner (u)ndo")
-     "wr" '(winner-redo :which-key "Winner (r)edo")))
- 
-  (use-package helpful
-    :commands (helpful-callable helpful-variable helpful-command helpful-key)
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . counsel-describe-function)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
+
+(use-package general
+  :config
+  (general-create-definer leader-keys
+    :prefix "C-c SPC")
+
+  (leader-keys
+   "e" '(:ignore t :which-key "(e)dit buffer")
+   "ef"  '(fill-buffer :which-key "(f)ill buffer")
+   "ei"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
+   "ey" '(simpleclip-copy :which-key "clipboard (y)ank")
+   "ep" '(simpleclip-paste :which-key "clipboard (p)aste")
+   "f" '(:ignore t :which-key "edit (f)iles")
+   "fc" '((lambda () (interactive)
+            (find-file (expand-file-name "~/Documents/GithubProjects/.emacs-cs-357-config/cs-357.org")))
+          :which-key "emacs (c)onfig file")
+   "s"  '(shell-command :which-key "(s)hell command")
+   "t"  '(:ignore t :which-key "(t)oggles")
+   "tt" '(load-theme :which-key "Choose (t)heme")
+   "g" '(magit-status :which-key "Ma(g)it status")
+   "d" '(dired-jump :which-key "(d)ired jump")
+   "w" '(:ignore t :which-key "(w)indows related")
+   "wu" '(winner-undo :which-key "Winner (u)ndo")
+   "wr" '(winner-redo :which-key "Winner (r)edo")))
+
+(use-package helpful
+  :commands (helpful-callable helpful-variable helpful-command helpful-key)
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
 
 (use-package flx)
 
@@ -324,18 +333,6 @@
   (let ((consult-project-function (lambda (x) "./")))
     (consult-find)))
 
-(defun lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
-
-(use-package lsp-mode
-      :commands (lsp lsp-deferred)
-      :hook (lsp-mode . lsp-mode-setup)
-      :init
-      (setq lsp-keymap-prefix "C-l")
-      :config
-      (lsp-enable-which-key-integration t))
-
 (use-package company
   :after lsp-mode
   :hook (lsp-mode . company-mode)
@@ -347,9 +344,8 @@
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
 
-(when (not (version< emacs-version "26"))
-  (use-package company-box
-    :hook (company-mode . company-box-mode)))
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 
 (use-package yasnippet
   :config
@@ -361,7 +357,18 @@
 
 (load (expand-file-name "snippets/yasnippet-scripts.el" user-emacs-directory))
 
-;; Basic Racket setup
+(defun lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-l")
+  :config
+  (lsp-enable-which-key-integration t))
+
 (setq scheme-program-name "racket")
 (setq auto-mode-alist
       (cons '("\\.rkt\\'" . scheme-mode)
@@ -369,7 +376,7 @@
 
 (use-package haskell-mode
   :mode "\\.hs\\'"
-  :hook (haskell-mode . lsp-deferred)
+  ;:hook (haskell-mode . lsp-deferred)
   :config
   (setq haskell-program-name "/opt/homebrew/bin/ghci")
   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -377,3 +384,4 @@
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
   ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
   )
+(use-package lsp-haskell)

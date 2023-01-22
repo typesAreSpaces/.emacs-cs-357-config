@@ -4,7 +4,6 @@
 Use =M-x org-babel-tangle= to update =init.el=
 
 * Package system setup
-
 #+begin_src emacs-lisp 
   (require 'package)
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -20,10 +19,8 @@ Use =M-x org-babel-tangle= to update =init.el=
   (require 'use-package)
   (setq use-package-always-ensure t)
 #+end_src
-
 * UI
 ** Basic setup
-
 #+begin_src emacs-lisp 
   (global-font-lock-mode t)
   (show-paren-mode 1)
@@ -113,11 +110,20 @@ Use =M-x org-babel-tangle= to update =init.el=
     (simpleclip-mode 1))
 
 #+end_src
+** Auto-tangle configuration files
+#+begin_src emacs-lisp
+  (defun org-babel-tangle-config ()
+    (when (string-equal (file-name-directory (buffer-file-name))
+                        (expand-file-name user-emacs-directory))
+                                          ; Dynamic scoping to the rescue
+      (let ((org-confirm-babel-evaluate nil))
+        (org-babel-tangle))))
 
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
+#+end_src
 ** General
-
 #+begin_src emacs-lisp 
-(use-package general
+  (use-package general
     :config
     (general-create-definer leader-keys
       :prefix "C-c SPC")
@@ -140,7 +146,7 @@ Use =M-x org-babel-tangle= to update =init.el=
      "w" '(:ignore t :which-key "(w)indows related")
      "wu" '(winner-undo :which-key "Winner (u)ndo")
      "wr" '(winner-redo :which-key "Winner (r)edo")))
- 
+
   (use-package helpful
     :commands (helpful-callable helpful-variable helpful-command helpful-key)
     :custom
@@ -152,9 +158,7 @@ Use =M-x org-babel-tangle= to update =init.el=
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+end_src
-
 ** Completion framework
-
 #+begin_src emacs-lisp 
   (use-package flx)
 
@@ -346,28 +350,9 @@ Use =M-x org-babel-tangle= to update =init.el=
     (let ((consult-project-function (lambda (x) "./")))
       (consult-find)))
 #+end_src
-
 * Development
-** LSP
-
-#+begin_src emacs-lisp
-  (defun lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
-
-(use-package lsp-mode
-      :commands (lsp lsp-deferred)
-      :hook (lsp-mode . lsp-mode-setup)
-      :init
-      (setq lsp-keymap-prefix "C-l")
-      :config
-      (lsp-enable-which-key-integration t))
-#+end_src
-
 ** Completion in buffer
-
 #+begin_src emacs-lisp
-
   (use-package company
     :after lsp-mode
     :hook (lsp-mode . company-mode)
@@ -379,14 +364,10 @@ Use =M-x org-babel-tangle= to update =init.el=
     (company-minimum-prefix-length 1)
     (company-idle-delay 0.0))
 
-  (when (not (version< emacs-version "26"))
-    (use-package company-box
-      :hook (company-mode . company-box-mode)))
-
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 #+end_src
-
 ** Yasnippet
-
 #+begin_src emacs-lisp 
   (use-package yasnippet
     :config
@@ -397,25 +378,35 @@ Use =M-x org-babel-tangle= to update =init.el=
   (use-package yasnippet-snippets) 
 
   (load (expand-file-name "snippets/yasnippet-scripts.el" user-emacs-directory))
-
 #+end_src
+** Language support
+*** LSP
+#+begin_src emacs-lisp
+  (defun lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
 
-** Racket
-
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook (lsp-mode . lsp-mode-setup)
+    :init
+    (setq lsp-keymap-prefix "C-l")
+    :config
+    (lsp-enable-which-key-integration t))
+#+end_src
+*** Racket
 #+begin_src emacs-lisp 
-  ;; Basic Racket setup
   (setq scheme-program-name "racket")
   (setq auto-mode-alist
         (cons '("\\.rkt\\'" . scheme-mode)
               auto-mode-alist)) 
 #+end_src
-
-** Haskell
-Install a language server to enable lsp. For example, =brew install haskell-language-server=.
+*** Haskell
+Install a language server to enable lsp. For example, [[https://formulae.brew.sh/formula/haskell-language-server][=brew install haskell-language-server=]].
 #+begin_src emacs-lisp 
   (use-package haskell-mode
     :mode "\\.hs\\'"
-    :hook (haskell-mode . lsp-deferred)
+    ;:hook (haskell-mode . lsp-deferred)
     :config
     (setq haskell-program-name "/opt/homebrew/bin/ghci")
     (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -423,4 +414,5 @@ Install a language server to enable lsp. For example, =brew install haskell-lang
     (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
     ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
     )
+  (use-package lsp-haskell)
 #+end_src
