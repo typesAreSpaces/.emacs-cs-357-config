@@ -123,9 +123,6 @@
    "fe" '((lambda () (interactive)
             (find-file (expand-file-name "~/Documents/GithubProjects/.emacs-cs-357-config/cs-357.org")))
           :which-key "(e)macs config file")
-   "fh" '((lambda () (interactive)
-            (find-file (expand-file-name "~/Documents/GithubProjects/phd-thesis/Documents/Semesters/2023/Spring/TA-CS-357/Homework")))
-          :which-key "current (h)omework")
    "s"  '(shell-command :which-key "(s)hell command")
    "t"  '(:ignore t :which-key "(t)oggles")
    "tt" '(load-theme :which-key "Choose (t)heme")
@@ -375,11 +372,19 @@
 (setq scheme-program-name "racket")
 (setq auto-mode-alist
       (cons '("\\.rkt\\'" . scheme-mode)
-            auto-mode-alist))
+            auto-mode-alist)) 
+
+(defun run-scheme2 ()
+  "Run scheme-program-name and disable geiser-mode."
+  (interactive)
+  (split-window-right)
+  (geiser-mode -1)
+  (windmove-right)
+  (run-scheme scheme-program-name))
 
 (use-package haskell-mode
   :mode "\\.hs\\'"
-  ;:hook (haskell-mode . lsp-deferred)
+                                        ;:hook (haskell-mode . lsp-deferred)
   :config
   (setq haskell-program-name "/opt/homebrew/bin/ghci")
   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
