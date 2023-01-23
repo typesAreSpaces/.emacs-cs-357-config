@@ -372,13 +372,20 @@
 (setq scheme-program-name "racket")
 (setq auto-mode-alist
       (cons '("\\.rkt\\'" . scheme-mode)
-            auto-mode-alist)) 
+	    auto-mode-alist))
 
 (defun run-scheme2 ()
   "Run scheme-program-name and disable geiser-mode."
   (interactive)
   (split-window-right)
   (geiser-mode -1)
+  (windmove-right)
+  (run-scheme scheme-program-name))
+
+(defun run-scheme3 ()
+  "Run scheme-program-name and disable geiser-mode."
+  (interactive)
+  (split-window-right)
   (windmove-right)
   (run-scheme scheme-program-name))
 
