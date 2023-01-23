@@ -1,22 +1,20 @@
 (require 'package)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(package-archives
-     (quote
-       (("gnu" . "https://elpa.gnu.org/packages/")
-        ("melpa" . "https://melpa.org/packages/")))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-archives
+   (quote
+    (("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")))))
 (package-initialize)
 
 (setq package-list '(haskell-mode))
 
-; fetch the list of packages available 
 (unless package-archive-contents
   (package-refresh-contents))
 
-; install the missing packages
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
@@ -32,14 +30,22 @@
 (setq scheme-program-name "/usr/bin/racket")
 (setq auto-mode-alist
       (cons '("\\.rkt\\'" . scheme-mode)
-            auto-mode-alist))
+	    auto-mode-alist))
+
+(defun run-scheme2 ()
+  "Run scheme-program-name and disable geiser-mode."
+  (interactive)
+  (split-window-right)
+  (geiser-mode -1)
+  (windmove-right)
+  (run-scheme scheme-program-name))
 
 ;; Basic Haskell setup
 (require 'haskell-mode)
 (setq haskell-program-name "/usr/bin/ghci")
 (setq auto-mode-alist
       (cons '("\\.hs\\'" . haskell-mode)
-            auto-mode-alist))
+	    auto-mode-alist))
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 ;; Choose indentation mode (the latter requires haskell-mode >= 2.5):
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
