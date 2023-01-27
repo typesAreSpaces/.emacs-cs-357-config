@@ -31,6 +31,7 @@ Use =M-x org-babel-tangle= to update =init.el=
   (tooltip-mode -1)                  ; Disable tooltips
   (set-fringe-mode 10)               ; Give some breathing room
   (setq visible-bell t)              ; Set up the visible bell
+  (winner-mode 1)                    ; Enable winner mode
 
   (global-set-key "%" 'match-paren)
 
@@ -141,7 +142,6 @@ Use =M-x org-babel-tangle= to update =init.el=
       "s"  '(shell-command :which-key "(s)hell command")
       "t"  '(:ignore t :which-key "(t)oggles")
       "tt" '(load-theme :which-key "Choose (t)heme")
-      "g" '(magit-status :which-key "Ma(g)it status")
       "d" '(dired-jump :which-key "(d)ired jump")
       "w" '(:ignore t :which-key "(w)indows related")
       "wu" '(winner-undo :which-key "Winner (u)ndo")
@@ -219,6 +219,9 @@ Use =M-x org-babel-tangle= to update =init.el=
     (setq completion-styles '(orderless basic)
 	  completion-category-defaults nil
 	  completion-category-overrides '((file (styles partial-completion)))))
+	  completion-category-overrides '((file (styles partial-completion))))
+    :config
+    (setq orderless-matching-styles '(orderless-flex)))
 
   (use-package consult
     :after (vertico)
