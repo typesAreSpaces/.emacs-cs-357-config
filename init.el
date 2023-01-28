@@ -151,7 +151,7 @@
   :init
   (god-mode)
   :config
-  (global-set-key (kbd "<escape>") #'god-mode-all)
+  (global-set-key (kbd "s-g") #'god-mode-all)
   (setq god-mode-enable-function-key-translation nil)
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
