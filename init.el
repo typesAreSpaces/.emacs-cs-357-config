@@ -63,7 +63,8 @@
   :diminish which-key-mode
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 1))
+  (setq which-key-idle-delay 1)
+  (which-key-enable-god-mode-support))
 
 (defvar dashboard-logo-path "~/Pictures/Wallpapers/figures/480px-EmacsIcon.svg.png")
 
@@ -145,6 +146,15 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+(use-package god-mode
+  :init
+  (god-mode)
+  :config
+  (global-set-key (kbd "<escape>") #'god-mode-all)
+  (setq god-mode-enable-function-key-translation nil)
+  (setq god-exempt-major-modes nil)
+  (setq god-exempt-predicates nil))
 
 (use-package flx)
 
