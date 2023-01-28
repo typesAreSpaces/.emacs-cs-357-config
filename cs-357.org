@@ -59,7 +59,7 @@ Use =M-x org-babel-tangle= to update =init.el=
     :hook (prog-mode . rainbow-delimiters-mode))
 
   (use-package doom-themes
-    :init (load-theme 'doom-gruvbox t))
+    :init (load-theme 'doom-zenburn t))
 
   (use-package doom-modeline
     :init (doom-modeline-mode 1)

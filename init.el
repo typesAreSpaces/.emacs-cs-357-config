@@ -49,7 +49,7 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package doom-themes
-  :init (load-theme 'doom-gruvbox t))
+  :init (load-theme 'doom-zenburn t))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -467,16 +467,3 @@
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(org-bullets yasnippet-snippets which-key vertico use-package simpleclip rainbow-mode rainbow-delimiters orderless no-littering marginalia lsp-haskell hydra helpful god-mode general flx embark-consult doom-themes doom-modeline dashboard company-box command-log-mode anzu all-the-icons)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
