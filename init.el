@@ -154,6 +154,8 @@
   (god-mode)
   :config
   (global-set-key (kbd "s-g") #'god-mode-all)
+  (define-key god-local-mode-map (kbd "i") #'god-local-mode)
+  (global-set-key (kbd "C-g") #'god-local-mode)
   (setq god-mode-enable-function-key-translation nil)
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
@@ -419,7 +421,7 @@
 (use-package lsp-haskell)
 
 (defun efs/org-font-setup ()
-      (dolist (face '((org-level-1 . 1.2)
+  (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)
                   (org-level-4 . 1.0)
