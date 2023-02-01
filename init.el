@@ -479,7 +479,7 @@
           ("\\.mm\\'" . default)
           ("\\.x?html?\\'" . default)
           ("\\.nb?\\'" . "Mathematica %s")
-          ("\\.pdf\\'" . "zathura %s")))
+          ("\\.pdf\\'" . "open -a Skim %s")))
 
   (setq org-ellipsis "⇓")
 

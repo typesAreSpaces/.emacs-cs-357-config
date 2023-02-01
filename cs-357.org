@@ -514,7 +514,7 @@ Install a language server to enable lsp. For example, [[https://formulae.brew.sh
             ("\\.mm\\'" . default)
             ("\\.x?html?\\'" . default)
             ("\\.nb?\\'" . "Mathematica %s")
-            ("\\.pdf\\'" . "zathura %s")))
+            ("\\.pdf\\'" . "open -a Skim %s")))
 
     (setq org-ellipsis "⇓")
 
