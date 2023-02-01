@@ -13,7 +13,7 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(global-font-lock-mode t)
+;(global-font-lock-mode t)
 (show-paren-mode 1)
 (put 'upcase-region 'disabled nil)
 (put 'eval-expression 'disabled nil)
@@ -24,6 +24,24 @@
 (set-fringe-mode 10)               ; Give some breathing room
 (setq visible-bell t)              ; Set up the visible bell
 (winner-mode 1)                    ; Enable winner mode
+
+(defun frame-font-setup
+    (&rest ...)
+  ;; (remove-hook 'focus-in-hook #'frame-font-setup)
+  (unless (assoc 'font default-frame-alist)
+    (let* ((font-family (catch 'break
+                          (dolist (font-family
+                                   '("Fira Code"
+                                     "Hack"
+                                     "Consolas"))
+                            (when (member font-family (font-family-list))
+                              (throw 'break font-family)))))
+           (font (when font-family (format "%s-18" font-family))))
+      (when font
+        (add-to-list 'default-frame-alist (cons 'font font))
+        (set-frame-font font t t)))))
+
+(add-hook 'focus-in-hook #'frame-font-setup)
 
 (global-set-key "%" 'match-paren)
 
