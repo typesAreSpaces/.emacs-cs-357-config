@@ -23,7 +23,7 @@ Use =M-x org-babel-tangle= to update =init.el=
 * UI
 ** Basic setup
 #+begin_src emacs-lisp 
-  ;(global-font-lock-mode t)
+                                          ;(global-font-lock-mode t)
   (show-paren-mode 1)
   (put 'upcase-region 'disabled nil)
   (put 'eval-expression 'disabled nil)
@@ -34,7 +34,7 @@ Use =M-x org-babel-tangle= to update =init.el=
   (set-fringe-mode 10)               ; Give some breathing room
   (setq visible-bell t)              ; Set up the visible bell
   (winner-mode 1)                    ; Enable winner mode
-  
+
   (defun frame-font-setup
       (&rest ...)
     ;; (remove-hook 'focus-in-hook #'frame-font-setup)
@@ -151,11 +151,11 @@ Use =M-x org-babel-tangle= to update =init.el=
       :prefix "C-c SPC")
 
     (leader-keys
-      "e" '(:ignore t :which-key "(e)dit buffer")
-      "ef"  '(fill-buffer :which-key "(f)ill buffer")
-      "ei"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
-      "ey" '(simpleclip-copy :which-key "clipboard (y)ank")
-      "ep" '(simpleclip-paste :which-key "clipboard (p)aste")
+      "b" '(:ignore t :which-key "edit (b)uffer")
+      "bf"  '(fill-buffer :which-key "(f)ill buffer")
+      "bi"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
+      "by" '(simpleclip-copy :which-key "clipboard (y)ank")
+      "bp" '(simpleclip-paste :which-key "clipboard (p)aste")
       "f" '(:ignore t :which-key "edit (f)iles")
       "fa" '((lambda () (interactive)
                (find-file (expand-file-name "~/Documents/GithubProjects/phd-thesis/Documents/Semesters/2023/Spring/TA-CS-357/Org-Files/current_tasks.org")))
@@ -528,20 +528,24 @@ Install a language server to enable lsp. For example, [[https://formulae.brew.sh
 
     (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
 
-    (define-key global-map (kbd "C-c s")
-      (lambda () (interactive) (mark-whole-buffer) (org-sort-entries nil ?o)))
-
     (define-key global-map (kbd "C-c c")
       (lambda () (interactive) (org-todo "COMPLETED")))
 
     (define-key global-map (kbd "C-c t")
       (lambda () (interactive) (org-todo "TODO")))
 
-    (defun auto/SortTODO ()
-      (when (and buffer-file-name (string-match ".*/todolist.org" (buffer-file-name)))
-        (setq unread-command-events (listify-key-sequence "\C-c s"))))
-
     (efs/org-font-setup))
+
+  (defun org-sort-buffer ()
+    "Sort all entries in the current buffer, recursively."
+    (interactive)
+    (org-map-entries (lambda ()
+                       (condition-case x
+                           (org-sort-entries nil ?o)
+                         (user-error)))))
+  
+  (define-key global-map (kbd "C-c s")
+    (lambda () (interactive) (org-sort-buffer)))
 
   (use-package org-bullets
     :hook (org-mode . org-bullets-mode)
