@@ -143,7 +143,7 @@
     "bp" '(simpleclip-paste :which-key "clipboard (p)aste")
     "f" '(:ignore t :which-key "edit (f)iles")
     "fa" '((lambda () (interactive)
-             (find-file (expand-file-name "~/Documents/GithubProjects/phd-thesis/Documents/Semesters/2023/Spring/TA-CS-357/Org-Files/current_tasks.org")))
+             (find-file (expand-file-name "~/Documents/GithubProjects/phd-thesis/Documents/Org-Files/main.org")))
            :which-key "TA (a)genda")
     "fe" '((lambda () (interactive)
              (find-file (expand-file-name "~/Documents/GithubProjects/.emacs-cs-357-config/cs-357.org")))
