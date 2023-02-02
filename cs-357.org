@@ -474,6 +474,10 @@ Install a language server to enable lsp. For example, [[https://formulae.brew.sh
 * Org mode
 #+begin_src emacs-lisp
   (defun efs/org-font-setup ()
+    (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "â¢"))))))
+    
     (dolist (face '((org-level-1 . 1.2)
                     (org-level-2 . 1.1)
                     (org-level-3 . 1.05)
@@ -543,7 +547,7 @@ Install a language server to enable lsp. For example, [[https://formulae.brew.sh
                        (condition-case x
                            (org-sort-entries nil ?o)
                          (user-error)))))
-  
+
   (define-key global-map (kbd "C-c s")
     (lambda () (interactive) (org-sort-buffer)))
 
