@@ -45,6 +45,22 @@
 
 (global-set-key "%" 'match-paren)
 
+;; Window navigation
+(require 'cl)
+(defun ignore-error-wrapper (fn)
+  "Funtion return new function that ignore errors.
+     The function wraps a function with `ignore-errors' macro."
+  (lexical-let ((fn fn))
+    (lambda ()
+      (interactive)
+      (ignore-errors
+        (funcall fn)))))
+
+(global-set-key (kbd "C-x C-h") (ignore-error-wrapper 'windmove-left))
+(global-set-key (kbd "C-x C-l") (ignore-error-wrapper 'windmove-right))
+(global-set-key (kbd "C-x C-k") (ignore-error-wrapper 'windmove-up))
+(global-set-key (kbd "C-x C-j") (ignore-error-wrapper 'windmove-down))
+
 (defun match-paren (arg)
   "Go to the matching paren if on a paren; otherwise insert %."
   (interactive "p")
