@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: image
-# key: ;img
-# condition: 'auto
-# --
-#+caption: $1
-#+name:    fig:$2
-[[$3]]
-$0

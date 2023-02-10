@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: New entry in list
-# key: ;todo
-# --
-* TODO ${1:[#$2] }$0

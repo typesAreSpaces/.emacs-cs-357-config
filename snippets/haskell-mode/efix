@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: fixme dummy
-# key: ;efix
-# condition: 'auto
-# --
-(error "FIXME: $0")

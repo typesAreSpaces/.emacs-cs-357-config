@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: (lambda (...) ...)
-# key: ;lambda
-# condition: 'auto
-# --
-(lambda ${1:(${2:arguments})} $0)

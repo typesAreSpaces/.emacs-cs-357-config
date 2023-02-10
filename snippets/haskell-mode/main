@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: main function
-# key: ;main
-# condition: 'auto
-# --
-main :: IO ()
-main = do $0
