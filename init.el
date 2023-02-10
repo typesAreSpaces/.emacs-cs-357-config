@@ -25,6 +25,10 @@
 (setq visible-bell t)              ; Set up the visible bell
 (winner-mode 1)                    ; Enable winner mode
 
+(defun indent-buffer ()
+    (interactive)
+  (indent-region (point-min) (point-max)))
+
 (defun frame-font-setup
     (&rest ...)
   ;; (remove-hook 'focus-in-hook #'frame-font-setup)
