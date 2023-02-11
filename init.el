@@ -195,7 +195,7 @@
   (global-set-key (kbd "s-g") #'god-mode-all)
   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
   (global-set-key (kbd "C-g") (lambda () (interactive) (prog1 (god-local-mode) (keyboard-quit))))
-  (setq god-mode-alist '((nil . "C-") ("g" . "M-") ("h" . "C-M-")))
+  (setq god-mode-alist '((nil . "C-") ("g" . "M-") ("t" . "C-M-")))
   (setq god-mode-enable-function-key-translation nil)
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
