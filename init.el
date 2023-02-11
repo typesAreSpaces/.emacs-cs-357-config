@@ -24,9 +24,10 @@
 (set-fringe-mode 10)               ; Give some breathing room
 (setq visible-bell t)              ; Set up the visible bell
 (winner-mode 1)                    ; Enable winner mode
+(electric-pair-mode 1)
 
 (defun indent-buffer ()
-    (interactive)
+  (interactive)
   (indent-region (point-min) (point-max)))
 
 (defun frame-font-setup
@@ -194,6 +195,7 @@
   (global-set-key (kbd "s-g") #'god-mode-all)
   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
   (global-set-key (kbd "C-g") (lambda () (interactive) (prog1 (god-local-mode) (keyboard-quit))))
+  (setq god-mode-alist '((nil . "C-") ("g" . "M-") ("h" . "C-M-")))
   (setq god-mode-enable-function-key-translation nil)
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
