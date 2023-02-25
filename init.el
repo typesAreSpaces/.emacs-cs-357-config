@@ -22,7 +22,8 @@
 (tooltip-mode -1)                  ; Disable tooltips
 (menu-bar-mode -1)                 ; Disable the menu bar
 (set-fringe-mode 10)               ; Give some breathing room
-(setq visible-bell t)              ; Set up the visible bell
+
+(setq ring-bell-function 'ignore)
 (winner-mode 1)                    ; Enable winner mode
 (electric-pair-mode 1)
 
@@ -195,7 +196,7 @@
   (global-set-key (kbd "s-g") #'god-mode-all)
   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
   (global-set-key (kbd "C-g") (lambda () (interactive) (prog1 (god-local-mode) (keyboard-quit))))
-  (setq god-mode-alist '((nil . "C-") ("g" . "M-") ("t" . "C-M-")))
+  (setq god-mode-alist '((nil . "C-") ("g" . "M-") ("G" . "C-M-")))
   (setq god-mode-enable-function-key-translation nil)
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
